@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Iterator
 
 import psycopg2
@@ -111,3 +112,16 @@ def filling_db_vacancies(db_name: str, params: dict, list_vac: Iterator) -> None
             )
     conn.commit()
     conn.close()
+
+
+def get_user_time() -> str:
+    """Получение времени пользователя"""
+    user_data_hour = datetime.now().hour  # Получение текущего часа
+    if 5 <= user_data_hour < 11:
+        return "Доброе утро"
+    elif 11 <= user_data_hour < 17:
+        return "Добрый день"
+    elif 17 <= user_data_hour < 23:
+        return "Добрый вечер"
+    else:
+        return "Доброй ночи"
