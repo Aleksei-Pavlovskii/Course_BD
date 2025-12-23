@@ -3,7 +3,7 @@ from typing import Any
 import psycopg2
 
 
-class DBManager():
+class DBManager:
     """Класс для подключения к базе данных"""
 
     def __init__(self, db_name: str, params: dict) -> None:
@@ -55,7 +55,8 @@ class DBManager():
     def get_vacancies_with_higher_salary(self, avg_salary: float) -> Any:
         """Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям."""
         with self.conn.cursor() as cur:
-            cur.execute(f"""SELECT * 
+            cur.execute(
+                f"""SELECT * 
                 FROM vacancies
                 WHERE salary_from > {avg_salary}
                 """
@@ -65,9 +66,10 @@ class DBManager():
     def get_vacancies_with_keyword(self, key_word: str) -> Any:
         """Получает список всех вакансий, в названии которых содержатся переданные в метод слова."""
         with self.conn.cursor() as cur:
-            cur.execute("""SELECT * 
+            cur.execute(
+                """SELECT * 
                 FROM vacancies
                 WHERE LOWER(name) LIKE %s""",
-                        (f"%{key_word.lower()}%",)
-                        )
+                (f"%{key_word.lower()}%",),
+            )
             return cur.fetchall()
